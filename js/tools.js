@@ -40,6 +40,11 @@ $(document).ready(function() {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
+	$('body').on('click', '.form-input-clear', function(e) {
+		$(this).parent().find('input').val('').trigger('change').trigger('blur');
+		e.preventDefault();
+	});
+
     $('body').on('change', '.form-file input', function() {
         var curInput = $(this);
         var curField = curInput.parents().filter('.form-file');
@@ -142,6 +147,9 @@ $(document).ready(function() {
             if (curPopup.offset().left + curPopup.outerWidth() > $(window).width()) {
                 curBlock.addClass('to-right');
             }
+            if (curPopup.offset().top + curPopup.outerHeight() > $('.wrapper').outerHeight()) {
+                curBlock.addClass('to-bottom');
+            }
         }
         e.preventDefault();
     });
@@ -208,9 +216,82 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
+	$('body').on('click', '.speakers-search .form-input-clear', function(e) {
+		filterSpeakers(true);
+		e.preventDefault();
+	});
+
+	$('body').on('submit', '.speakers-ctrl form', function(e) {
+		filterSpeakers(true);
+		e.preventDefault();
+	});
+
+    $('body').on('click', '.speakers-container .pager a', function(e) {
+        $('.speakers-container .pager a.active').removeClass('active');
+        $(this).addClass('active');
+        filterSpeakers(false);
+        e.preventDefault();
+    });
+
+    $('body').on('click', '.speakers-letters a', function(e) {
+        var curLink = $(this);
+        if (curLink.hasClass('active')) {
+            curLink.removeClass('active');
+        } else {
+            $('.speakers-letters a.active').removeClass('active');
+            curLink.addClass('active');
+        }
+        filterSpeakers(false);
+        e.preventDefault();
+    });
+
+    $('.main-stream-speaker').on('mouseenter', function() {
+        var curSpeaker = $(this);
+        $('.main-stream-speaker-window').remove();
+        $('.wrapper').append('<div class="main-stream-speaker-window">' + curSpeaker.find('.main-stream-speaker-info').html() + '</div>');
+        $('.main-stream-speaker-window').css({'left': curSpeaker.offset().left, 'top': curSpeaker.offset().top});
+    });
+
+    $('.main-stream-speaker').on('mouseleave', function() {
+        $('.main-stream-speaker-window').remove();
+    });
+
+    $('.main-stream-speakers').slick({
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        prevArrow: '<button type="button" class="slick-prev"><svg><use xlink:href="' + pathTemplate + 'images/sprite.svg#main-stream-speakers-prev"></use></svg></button>',
+        nextArrow: '<button type="button" class="slick-next"><svg><use xlink:href="' + pathTemplate + 'images/sprite.svg#main-stream-speakers-next"></use></svg></button>',
+        dots: false,
+    }).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        if (nextSlide > 0) {
+            $('.main-stream-speakers').addClass('shift');
+        } else {
+            $('.main-stream-speakers').removeClass('shift');
+        }
+    });
+
+    $('.programm').each(function() {
+        redrawProgramm();
+    });
+
+    $('.up-link').click(function(e) {
+        $('html, body').animate({'scrollTop': 0});
+        e.preventDefault();
+    });
+
+    $('body').on('click', '.speaker-card-descr-more a', function(e) {
+        $(this).parent().prev().toggleClass('open');
+        e.preventDefault();
+    });
+
 });
 
 function initForm(curForm) {
+    if (curForm.hasClass('no-send-form')) {
+        return;
+    }
+
     curForm.find('.form-input input, .form-input textarea').each(function() {
         if ($(this).val() != '') {
             $(this).parent().addClass('full');
@@ -498,4 +579,187 @@ $(window).on('load resize', function() {
         });
         $('.main-result').css({'height': maxHeight + 'px'});
     });
+
+    $('.speaker-card-descr-text').each(function() {
+        var curBlock = $(this);
+        curBlock.removeClass('open with-more');
+        if (curBlock.height() < curBlock.find('.speaker-card-descr-text-inner').height()) {
+            curBlock.addClass('with-more');
+        }
+    });
+});
+
+function filterSpeakers(noLetter) {
+	$('.speakers-container').addClass('loading');
+	var curForm = $('.speakers-ctrl form');
+	var curData = curForm.serialize();
+    if ($('.pager a.active').attr('data-value') != undefined) {
+		curData += '&PAGEN_1=' + $('.pager a.active').attr('data-value');
+    }
+
+	if ($('.speakers-letters a.active').length == 1 && !noLetter) {
+		curData += '&letter=' + $('.speakers-letters a.active').html();
+	}
+
+	$.ajax({
+		type: 'POST',
+		url: curForm.attr('action'),
+		dataType: 'html',
+		data: curData,
+		cache: false
+	}).done(function(response) {
+		$('.speakers-container .speakers').html($(response).find('.speakers').html());
+		$('.speakers-container .pager').html($(response).find('.pager').html());
+		$('.speakers-container .speakers-letters').html($(response).find('.speakers-letters').html());
+		$('.speakers-container').removeClass('loading');
+
+        $('html, body').animate({'scrollTop': 0});
+	});
+}
+
+function redrawProgramm() {
+    $('.programm-timescale').html('');
+    $('.programm-list').html('');
+
+    if (programmData != null) {
+
+        var minHour = 23;
+        var maxHour = 0;
+        for (var i = 0; i < programmData.length; i++) {
+            for (var j = 0; j < programmData[i].data.length; j++) {
+                var curEvent = programmData[i].data[j];
+                var curHour = Number(curEvent.start.substring(0, 2));
+                if (curHour < minHour) {
+                    minHour = curHour;
+                }
+                curHour = Number(curEvent.end.substring(0, 2));
+                if (curHour > maxHour) {
+                    maxHour = curHour;
+                }
+            }
+        }
+        maxHour++;
+        var countHour = maxHour - minHour;
+        var currentHour = 0;
+        for (var i = minHour; i < maxHour; i++) {
+            $('.programm-timescale').append('<div class="programm-timescale-item"><span>' + ('0' + i).substr(-2) + ':00</span></div>');
+            currentHour++;
+        }
+        var scheduleHeight = $('.programm-timescale').height();
+
+        var programmHTML =  '';
+        for (var i = 0; i < programmData.length; i++) {
+            var part_startHour = 0;
+            var part_startMinutes = 0;
+            var part_endHour = 0;
+            var part_endMinutes = 0;
+
+            for (var j = 0; j < programmData[i].data.length; j++) {
+                var curEvent = programmData[i].data[j];
+
+                if (j == 0) {
+                    var part_startHour = Number(curEvent.start.substr(0, 2));
+                    var part_startMinutes = Number(curEvent.start.substr(-2));
+                }
+                var part_endHour = Number(curEvent.end.substr(0, 2));
+                var part_endMinutes = Number(curEvent.end.substr(-2));
+
+            }
+            var part_eventTop = (((part_startHour - minHour) + part_startMinutes / 60) / countHour) * 100;
+            var part_eventBottom = (((part_endHour - minHour) + part_endMinutes / 60) / countHour) * 100;
+            var part_eventHeight = part_eventBottom - part_eventTop;
+
+            programmHTML += '<div class="programm-part" style="top:calc(' + part_eventTop + '%); height:calc(' + part_eventHeight + '%);">';
+            programmHTML +=     '<div class="programm-part-inner">' +
+                                    '<div class="programm-part-title">' + programmData[i].name + '</div>';
+            if (typeof(programmData[i].title) != 'undefined') {
+                programmHTML +=     '<div class="programm-part-text">' + programmData[i].title + '</div>';
+            }
+            programmHTML +=     '</div>' +
+                            '</div>';
+
+            for (var j = 0; j < programmData[i].data.length; j++) {
+                var curEvent = programmData[i].data[j];
+
+                var startHour = Number(curEvent.start.substr(0, 2));
+                var startMinutes = Number(curEvent.start.substr(-2));
+                var eventTop = (((startHour - minHour) + startMinutes / 60) / countHour) * 100;
+                var endHour = Number(curEvent.end.substr(0, 2));
+                var endMinutes = Number(curEvent.end.substr(-2));
+                var eventBottom = (((endHour - minHour) + endMinutes / 60) / countHour) * 100;
+                var eventHeight = eventBottom - eventTop;
+
+                var classTotal = '';
+                if (typeof(programmData[i].title) == 'undefined') {
+                    classTotal = 'programm-item-big';
+                }
+
+                programmHTML += '<a href="' + curEvent.link + '" class="window-link programm-item ' + classTotal + '" style="top:calc(' + eventTop + '%); height:calc(' + eventHeight + '%);">' +
+                                    '<div class="programm-item-inner">' +
+                                        '<div class="programm-item-header">' +
+                                            '<span><strong>' + curEvent.start + ' – ' + curEvent.end + '</strong>#' + curEvent.type + '</span>' +
+                                        '</div>' +
+                                        '<div class="programm-item-title">' + curEvent.title + '</div>' +
+                                        '<svg><use xlink:href="' + pathTemplate + 'images/sprite.svg#programm-item-arrow"></use></svg>' +
+                                    '</div>' +
+                                '</a>';
+            }
+        }
+
+        $('.programm-list').append(programmHTML);
+        $(window).trigger('resize');
+    }
+}
+
+$(window).on('resize', function() {
+
+    $('.programm').each(function() {
+        $('.programm-timescale-item').css({'height': 174});
+        $('.programm').css({'margin-bottom': -174});
+
+        var isValid = false;
+        while (!isValid) {
+            isValid = true;
+            $('.programm-item').each(function() {
+                var curItem = $(this);
+                if (curItem.outerHeight() < curItem.find('.programm-item-inner').outerHeight()) {
+                    isValid = false;
+                }
+            });
+            if (!isValid) {
+                var curHeght = $('.programm-timescale-item').eq(0).outerHeight();
+                curHeght++;
+                $('.programm-timescale-item').css({'height': curHeght});
+                $('.programm').css({'margin-bottom': -curHeght});
+            }
+        }
+
+        $('.programm-part-inner').css({'width': 'auto'});
+        $('.programm-part').each(function() {
+            var curPart = $(this);
+            curPart.find('.programm-part-inner').css({'width': curPart.outerHeight()});
+        });
+    });
+
+});
+
+$(window).on('load resize scroll', function() {
+    var windowScroll = $(window).scrollTop();
+    $('body').append('<div id="body-test-height" style="position:fixed; left:0; top:0; right:0; bottom:0; z-index:-1"></div>');
+    var windowHeight = $('#body-test-height').height();
+    $('#body-test-height').remove();
+
+    if ($('.up-link').length == 1) {
+        if (windowScroll > windowHeight / 2) {
+            $('.up-link').addClass('visible');
+        } else {
+            $('.up-link').removeClass('visible');
+        }
+
+        if (windowScroll + windowHeight > $('footer').offset().top) {
+            $('.up-link').css({'margin-bottom': (windowScroll + windowHeight) - $('footer').offset().top});
+        } else {
+            $('.up-link').css({'margin-bottom': 0});
+        }
+    }
 });

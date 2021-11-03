@@ -65,24 +65,79 @@
                             <div class="main-stream-speakers">
                                 <div class="main-stream-speaker">
                                     <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-01.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Андрей Клепач</div>
+                                        <div class="main-stream-speaker-info-post">Заместитель председателя, ВЭБ.РФ</div>
+                                    </div>
                                 </div>
                                 <div class="main-stream-speaker">
                                     <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-02.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Ирек Файзуллин</div>
+                                        <div class="main-stream-speaker-info-post">Министр строительства и жилищно-коммунального хозяйства Российской Федерации</div>
+                                    </div>
                                 </div>
                                 <div class="main-stream-speaker">
                                     <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-03.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Валерий Лаптев</div>
+                                        <div class="main-stream-speaker-info-post">Председатель, Московский городской комитет профсоюза работников строительства и промышленности строительных материалов</div>
+                                    </div>
                                 </div>
                                 <div class="main-stream-speaker">
                                     <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-04.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Алексей Добашин</div>
+                                        <div class="main-stream-speaker-info-post">Владелец и генеральный директор, ООО ПФК «Крост»</div>
+                                    </div>
                                 </div>
                                 <div class="main-stream-speaker">
                                     <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-05.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Андрей Клепач</div>
+                                        <div class="main-stream-speaker-info-post">Заместитель председателя, ВЭБ.РФ</div>
+                                    </div>
+                                </div>
+                                <div class="main-stream-speaker">
+                                    <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-01.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Андрей Клепач</div>
+                                        <div class="main-stream-speaker-info-post">Заместитель председателя, ВЭБ.РФ</div>
+                                    </div>
+                                </div>
+                                <div class="main-stream-speaker">
+                                    <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-02.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Ирек Файзуллин</div>
+                                        <div class="main-stream-speaker-info-post">Министр строительства и жилищно-коммунального хозяйства Российской Федерации</div>
+                                    </div>
+                                </div>
+                                <div class="main-stream-speaker">
+                                    <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-03.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Валерий Лаптев</div>
+                                        <div class="main-stream-speaker-info-post">Председатель, Московский городской комитет профсоюза работников строительства и промышленности строительных материалов</div>
+                                    </div>
+                                </div>
+                                <div class="main-stream-speaker">
+                                    <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-04.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Алексей Добашин</div>
+                                        <div class="main-stream-speaker-info-post">Владелец и генеральный директор, ООО ПФК «Крост»</div>
+                                    </div>
+                                </div>
+                                <div class="main-stream-speaker">
+                                    <div class="main-stream-speaker-photo"><img src="files/main-stream-speaker-05.jpg" alt="" /></div>
+                                    <div class="main-stream-speaker-info">
+                                        <div class="main-stream-speaker-info-title">Андрей Клепач</div>
+                                        <div class="main-stream-speaker-info-post">Заместитель председателя, ВЭБ.РФ</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="main-stream-btn"><a href="#" class="btn">Задать вопрос спикеру</a></div>
 
                             <div class="main-stream-video">
-                                <a href="https://www.youtube.com/embed/bbcjX6OdWro" class="main-stream-video-link" style="background-image:url(files/main-stream-video.jpg)"><svg><use xlink:href="images/sprite.svg#main-stream-play"></use></svg></a>
+                                <a href="https://www.youtube.com/embed/bbcjX6OdWro" class="main-stream-video-link" style="background-image:url(files/main-stream-video.jpg)"><svg><use xlink:href="images/sprite.svg#main-stream-play"></use></svg><span>Прямой эфир</span></a>
                                 <div class="main-stream-video-player"></div>
                             </div>
                         </div>
@@ -147,59 +202,87 @@
                             <div class="main-header-btn"><a href="#" class="btn">Детальная программа<svg class="btn-submit-icon"><use xlink:href="images/sprite.svg#btn-submit"></use></svg></a></div>
                         </div>
 
+                        <script>
+                            var programmData = [
+                                {
+                                    'name'  : 'Такт 1',
+                                    'data'  : [
+                                        {
+                                            'start' : '10:00',
+                                            'end'   : '11:15',
+                                            'type'  : 'Открывающее пленарное заседание',
+                                            'title' : 'Нехватка трудовых ресурсов – риски для устойчивого развития строительной отрасли',
+                                            'link'  : 'windows/program-card.html'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'name'  : 'Такт 2',
+                                    'title' : 'Эволюция занятости в строительстве: новые цели – новые вызовы',
+                                    'data'  : [
+                                        {
+                                            'start' : '11:30',
+                                            'end'   : '12:15',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : '«Вход» на рынок труда в строительстве',
+                                            'link'  : 'windows/program-card.html'
+                                        },
+                                        {
+                                            'start' : '12:25',
+                                            'end'   : '13:05',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : 'Заработная плата и условия труда в строительстве',
+                                            'link'  : 'windows/program-card.html'
+                                        },
+                                        {
+                                            'start' : '13:15',
+                                            'end'   : '13:55',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : 'Подготовка и переподготовка кадров: соответствие требованиям реального сектора',
+                                            'link'  : 'windows/program-card.html'
+                                        },
+                                        {
+                                            'start' : '14:05',
+                                            'end'   : '14:45',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : 'Рынок труда в строительстве: особенности',
+                                            'link'  : 'windows/program-card.html'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'name'  : 'Такт 3',
+                                    'title' : 'Повышение производительности труда: больший объем работ меньшими силами',
+                                    'data'  : [
+                                        {
+                                            'start' : '15:30',
+                                            'end'   : '16:10',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : 'Производительность труда в строительстве: влияние на потребность в рабочей силе',
+                                            'link'  : 'windows/program-card.html'
+                                        },
+                                        {
+                                            'start' : '16:20',
+                                            'end'   : '17:00',
+                                            'type'  : 'Панельная дискуссия',
+                                            'title' : 'Особенности внедрения инноваций в строительной отрасли',
+                                            'link'  : 'windows/program-card.html'
+                                        }
+                                    ]
+                                }
+                            ];
+                        </script>
+
                         <!-- programm -->
                         <div class="programm">
 
-                            <a href="#" class="programm-item programm-item-big">
-                                <div class="programm-item-header">
-                                    <span><strong>10:00 – 11:15</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">Нехватка трудовых ресурсов – риски для устойчивого развития строительной отрасли</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
+                            <div class="programm-timescale"></div>
 
-                            <a href="#" class="programm-item">
-                                <div class="programm-item-header">
-                                    <span><strong>11:30 – 12:15</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">«Вход» на рынок труда в строительстве</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
-
-                            <a href="#" class="programm-item">
-                                <div class="programm-item-header">
-                                    <span><strong>12:25 – 13:05</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">Заработная плата и условия труда в строительстве</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
-
-                            <a href="#" class="programm-item">
-                                <div class="programm-item-header">
-                                    <span><strong>12:25 – 13:05</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">Подготовка и переподготовка кадров: соответствие требованиям реального сектора</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
-
-                            <a href="#" class="programm-item">
-                                <div class="programm-item-header">
-                                    <span><strong>12:25 – 13:05</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">Производительность труда в строительстве: влияние на потребность в рабочей силе</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
-
-                            <a href="#" class="programm-item">
-                                <div class="programm-item-header">
-                                    <span><strong>12:25 – 13:05</strong>#Панельная дискуссия</span>
-                                </div>
-                                <div class="programm-item-title">Особенности внедрения инноваций в строительной отрасли</div>
-                                <svg><use xlink:href="images/sprite.svg#programm-item-arrow"></use></svg>
-                            </a>
+                            <div class="programm-list"></div>
 
                         </div>
                         <!-- programm END -->
+
                     </div>
                 </div>
                 <!-- main programm END -->
@@ -384,6 +467,8 @@
                 </div>
             </div>
         </footer>
+
+        <a href="#" class="up-link"><svg><use xlink:href="images/sprite.svg#up-link"></use></svg></a>
 
         <script>
             var pathTemplate = './';
